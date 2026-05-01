@@ -10,6 +10,11 @@ with open("config.json", "r") as config_file:
     config = json.load(config_file)
 search_paths: list[str] = config["searchPaths"]
 extensions: list[str] = config["extensions"]
+
+if not "static" in os.listdir("."):
+    print("Creating static directory...")
+    os.mkdir("static")
+
 local_documents = [".".join(x.split(".")[:-1]) for x in os.listdir("static")]
 
 app = Flask(__name__)
