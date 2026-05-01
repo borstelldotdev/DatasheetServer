@@ -66,13 +66,6 @@ def search():
 def not_found():
     return render_template("not_found.html", query=request.args.get("query"))
 
-@app.route("/exit/")
-def exit_app():
-    shutdown = request.environ.get('werkzeug.server.shutdown')
-    if shutdown is None:
-        raise RuntimeError('Not running with the Werkzeug Server')
-    shutdown()
-    return "Server shutting down..."
 
 if __name__ == "__main__":
     app.logger.setLevel(DEBUG if config["debug"] else INFO)
