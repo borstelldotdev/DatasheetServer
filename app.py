@@ -11,11 +11,11 @@ with open("config.json", "r") as config_file:
 search_paths: list[str] = config["searchPaths"]
 extensions: list[str] = config["extensions"]
 
-if not "static" in os.listdir("."):
+if not "documents" in os.listdir("./static"):
     print("Creating static directory...")
-    os.mkdir("static")
+    os.mkdir("static/documents")
 
-local_documents = [".".join(x.split(".")[:-1]) for x in os.listdir("static")]
+local_documents = [".".join(x.split(".")[:-1]) for x in os.listdir("static/documents")]
 
 app = Flask(__name__)
 
@@ -34,7 +34,7 @@ def search():
 
     name = None
     if query in local_documents:
-        static = os.listdir("static")
+        static = os.listdir("static/documents")
 
         for extension in extensions:
             if query + extension in static:
@@ -50,14 +50,14 @@ def search():
 
             if response.status_code == 200:
                 name = url.split("/")[-1]
-                with open(f"static/{name}", "wb") as file:
+                with open(f"static/documents/{name}", "wb") as file:
                     app.logger.info(f"Downloading {url}...")
                     local_documents.append(query)
                     file.write(response.content)
                     break
 
     if name is not None:
-        return redirect(f"/static/{name}")
+        return redirect(url_for("static", filename=f"documents/{name}"))
 
     return redirect(url_for("not_found", query=query))
 
@@ -66,6 +66,13 @@ def search():
 def not_found():
     return render_template("not_found.html", query=request.args.get("query"))
 
+@app.route("/exit/")
+def exit_app():
+    shutdown = request.environ.get('werkzeug.server.shutdown')
+    if shutdown is None:
+        raise RuntimeError('Not running with the Werkzeug Server')
+    shutdown()
+    return "Server shutting down..."
 
 if __name__ == "__main__":
     app.logger.setLevel(DEBUG if config["debug"] else INFO)
