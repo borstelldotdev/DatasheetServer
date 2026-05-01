@@ -17,7 +17,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return render_template("home.html")
+    return render_template("home.html", local_documents=local_documents)
 
 @app.route("/search/")
 def search():
@@ -38,7 +38,10 @@ def search():
     else:
         for search_path in search_paths:
             url = search_path.format(name=query, name_lowercase=query.lower(), name_uppercase=query.upper())
-            response = requests.get(url)
+            try:
+                response = requests.get(url)
+            except requests.exceptions.ConnectionError:
+                continue
 
             if response.status_code == 200:
                 name = url.split("/")[-1]

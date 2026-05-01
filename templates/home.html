@@ -15,11 +15,15 @@
     <h1>Databladssökaren</h1>
 
     <form action="/search/" target="_blank" method="get">
-
         <label for="query">Sök:</label><br>
         <input type="text" id="query" name="query" required><br><br>
         <input type="submit" value="Sök">
     </form>
+
+    <br>
+    {% for local_document in local_documents %}
+    <a href="/search/?query={{local_document}}">{{local_document}}</a><br>
+    {% endfor %}
 
 </body>
 
