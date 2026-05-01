@@ -1,0 +1,13 @@
+{
+  "searchPaths": [
+    "https://www.ti.com/lit/ds/symlink/{name_lowercase}.pdf"
+  ],
+  "extensions": [
+    ".pdf",
+    ""
+  ],
+
+  "serverPort": 4100,
+  "serverHost": "127.0.0.1",
+  "debug": false
+}
