@@ -1,2 +1,3 @@
-static/docuemts
+/static/documents/
 /.venv/
+/.idea/

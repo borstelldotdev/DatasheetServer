@@ -18,7 +18,8 @@ if not "documents" in os.listdir("./static"):
 local_documents = [".".join(x.split(".")[:-1]) for x in os.listdir("static/documents")]
 
 app = Flask(__name__)
-
+session = requests.Session()
+session.headers.update({'User-Agent': config["userAgent"]})
 
 @app.route("/")
 def home():
@@ -43,8 +44,9 @@ def search():
     else:
         for search_path in search_paths:
             url = search_path.format(name=query, name_lowercase=query.lower(), name_uppercase=query.upper())
+            app.logger.debug(f"Searching at {url}")
             try:
-                response = requests.get(url)
+                response = session.get(url)
             except requests.exceptions.ConnectionError:
                 continue
 

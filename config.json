@@ -1,11 +1,15 @@
 {
   "searchPaths": [
-    "https://www.ti.com/lit/ds/symlink/{name_lowercase}.pdf"
+    "https://www.ti.com/lit/ds/symlink/{name_lowercase}.pdf",
+	"https://ww1.microchip.com/downloads/en/DeviceDoc/{name_lowercase}.pdf",
+	"https://assets.nexperia.com/documents/data-sheet/{name_uppercase}.pdf"
   ],
   "extensions": [
     ".pdf",
     ""
   ],
+
+  "userAgent": "DatasheetServer (by @borstelldotdev, https://github.com/borstelldotdev/DatasheetServer)",
 
   "serverPort": 4100,
   "serverHost": "127.0.0.1",
